@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Digital Twin Treatment Simulation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h1>🧬 Digital Twin Treatment Simulation</h1>
+    <p class="subtitle">AI-based personalized treatment outcome prediction</p>
+
+    <form method="POST" onsubmit="showLoader()">
+        <div class="input-group">
+            <label>Age</label>
+            <input type="number" name="age" required>
+        </div>
+
+        <div class="input-group">
+            <label>BMI</label>
+            <input type="number" step="0.1" name="bmi" required>
+        </div>
+
+        <div class="input-group">
+            <label>Glucose Level</label>
+            <input type="number" name="glucose" required>
+        </div>
+
+        <div class="input-group">
+            <label>Blood Pressure</label>
+            <input type="number" name="bp" required>
+        </div>
+
+        <div class="input-group">
+            <label>Treatment Type</label>
+            <select name="treatment">
+                <option value="0">Medication</option>
+                <option value="1">Therapy</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Hospital Stay (Days)</label>
+            <input type="number" name="days" required>
+        </div>
+
+        <button type="submit">🔍 Predict Recovery</button>
+    </form>
+
+    <div id="loader">⏳ Predicting outcome...</div>
+
+    {% if prediction is defined %}
+    <div class="result {{ color }}">
+        <h2>Predicted Recovery Score</h2>
+        <div class="score">{{ prediction }}</div>
+        <p>{{ explanation }}</p>
+    </div>
+
+    <canvas id="comparisonChart"></canvas>
+
+    <script>
+        showChart({{ med_score }}, {{ therapy_score }});
+    </script>
+    {% endif %}
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
